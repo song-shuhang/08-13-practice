@@ -1,0 +1,310 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可视化图表</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    #footer-nav{
+      width: 600px;
+      padding: 0  30px;
+      display: flex;
+      justify-content: space-around;
+    }    
+    #footer-nav li{      
+      /*取消button默认样式*/
+      /* border: none;
+      background-color: transparent;
+      outline: none;   */
+
+      width: 80px;
+      height: 25px;
+      border: 1px solid #f40;
+      /* background: #f40; */
+      color:#f40;
+      text-align: center;
+      line-height: 25px;
+    }
+    .navli{
+       background: #f40;
+       color: #ffffff !important;     
+    }
+    #header-nav{
+      width: 600px;
+      height: 400px;
+      position: relative;
+    }
+    .p{
+      width: 600px;
+      height:400px;
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    /* .show{
+      display: block;
+    }
+    .ss{
+      display: none;
+    } */
+    .show{
+      display: block;
+    }
+    .sssss {
+      background: red;
+    }
+    .rots{
+      width: 500px;
+      height: 100%;
+      transform: rotate(90deg);
+    }
+    .rot{
+      width: 100%;
+      height: 500px;
+    }
+    .rotss{
+      width: 100%;
+      height: 500px;
+      transform: rotate(0deg);
+    }
+  </style>
+</head>
+<body>
+  <div id="rot" class="rot">
+    <div id="header-nav">
+      <p id="main" class="p show">近一周</p>
+      <p id="box" class="p"></p>
+      <p id="box1" class="p"></p>
+      <p id="box2" class="p"></p>
+    </div>
+  
+    <ul id="footer-nav">
+      <li class="nav navli">近一周</li>
+      <li class="nav">近一个月</li>
+      <li class="nav">近三个月</li>
+      <li class="nav">近六个月</li>
+    </ul>
+  </div>
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.8.0/echarts.common.min.js"></script>
+  <script type='text/javascript'>
+  let lis = document.querySelectorAll(".nav")
+  let uls = document.getElementById("footer-nav")
+  let ps = document.querySelectorAll(".p")
+
+  let p = document.getElementsByTagName('p')
+  // uls.addEventListener("click", function () {
+    
+  let rot  = document.getElementById('rot')  
+  // })
+  //循环第一遍是绑定监听 第二遍是找到是谁点击的
+  lis.forEach((item, index) => {
+    item.onclick = function () {
+      lis.forEach((item2, index2) => {
+        if (item2.className.indexOf("navli") !== -1) {
+          item2.classList.remove("navli")
+        }
+      })
+
+      ps.forEach((item1, index1) => {
+
+        item1.style.display = "none"
+        if (index === index1) {
+          item1.style.display = "block"
+          item.classList.add("navli")
+        }
+      })
+    }
+  })
+
+  console.log(p.length)
+  var s = true;
+
+  for (let i = 0; i < p.length; i++) {
+    
+    p[i].onclick = function () {    
+     
+      if (s) {
+        for (let j = 0; j < p.length; j++) {
+          rot.className = ''
+          s = false;
+          rot.className = 'rots'
+        }
+      }else{
+
+        rot.className = 'rotss'
+        s =true;
+      }
+
+      // for (let j = 0; j < p.length; j++) {
+      //   // console.log(s,b)
+      //   // if (rot.className !== 'rots') {
+      //   //   // console.log('dsafsad')
+      //   //   rot.style.transform = "rotate(-90deg)"
+      //   // }   
+      //   rot.className = ''
+        
+      // }
+      // s = false
+      // rot.className = 'rots'
+      // console.log(s)
+    }
+  }
+  
+
+  
+     
+       // 基于准备好的dom，初始化echarts实例
+       var myChart = echarts.init(document.getElementById('main'));
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+              type: 'category',
+              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: 'line'
+            }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+         // 基于准备好的dom，初始化echarts实例
+       var myBox = echarts.init(document.getElementById('box'));
+        // 指定图表的配置项和数据
+        var option = {
+          title: {
+            text: '世界人口总量',
+            subtext: '数据来自网络'
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+          },
+          legend: {
+              data: ['2011年', '2012年']
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          xAxis: {
+              type: 'value',
+              boundaryGap: [0, 0.01]
+          },
+          yAxis: {
+              type: 'category',
+              data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
+          },
+          series: [
+              {
+                  name: '2011年',
+                  type: 'bar',
+                  data: [18203, 23489, 29034, 104970, 131744, 630230]
+              },
+              {
+                  name: '2012年',
+                  type: 'bar',
+                  data: [19325, 23438, 31000, 121594, 134141, 681807]
+              }
+          ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myBox.setOption(option);
+
+
+        // 基于准备好的dom，初始化echarts实例
+       var myBox1 = echarts.init(document.getElementById('box1'));
+        // 指定图表的配置项和数据
+        var option = {
+          title: {
+              text: '某站点用户访问来源',
+              subtext: '纯属虚构',
+              left: 'center'
+          },
+          tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          legend: {
+              orient: 'vertical',
+              left: 'left',
+              data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+          },
+          series: [
+              {
+                  name: '访问来源',
+                  type: 'pie',
+                  radius: '55%',
+                  center: ['50%', '60%'],
+                  data: [
+                      {value: 335, name: '直接访问'},
+                      {value: 310, name: '邮件营销'},
+                      {value: 234, name: '联盟广告'},
+                      {value: 135, name: '视频广告'},
+                      {value: 1548, name: '搜索引擎'}
+                  ],
+              emphasis: {
+                  itemStyle: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: 'rgba(0, 0, 0, 0.5)'
+                  }
+              }
+          }
+        ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myBox1.setOption(option);
+
+         // 基于准备好的dom，初始化echarts实例
+       var myBox2 = echarts.init(document.getElementById('box2'));
+        // 指定图表的配置项和数据
+        var option = {
+          xAxis: {},
+          yAxis: {},
+          series: [{
+            symbolSize: 20,
+            data: [
+                [10.0, 8.04],
+                [8.0, 6.95],
+                [13.0, 7.58],
+                [9.0, 8.81],
+                [11.0, 8.33],
+                [14.0, 9.96],
+                [6.0, 7.24],
+                [4.0, 4.26],
+                [12.0, 10.84],
+                [7.0, 4.82],
+                [5.0, 5.68]
+            ],
+            type: 'scatter'
+        }]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myBox2.setOption(option);
+
+
+  </script>
+</body>
+</html>
